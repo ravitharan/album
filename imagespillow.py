@@ -1,6 +1,7 @@
 from PIL import Image
 import os
-import webbrowser
+
+THUMPNAIL_SIZE = 240
 
 def create_thumbnail(folder, max_thumbnail_size):
     image_list = []
@@ -13,49 +14,49 @@ def create_thumbnail(folder, max_thumbnail_size):
             shrink_ratio_height = h / max_thumbnail_size
             if shrink_ratio_height > shrink_ratio_width:
                 shrink_ratio = shrink_ratio_height
-            else: 
+            else:
                 shrink_ratio = shrink_ratio_width
-            print(w / h, w, h)
             thumbnail_size = (w / shrink_ratio,h / shrink_ratio)
             fn, fext = os.path.splitext(pic)
-            image.thumbnail(thumbnail_size) 
+            image.thumbnail(thumbnail_size)
             image.save('thumbnail/_thumb{}{}'.format(fn, fext))
-            print('image thumbnail saved as', image)
             image_list.append(pic)
     return image_list
 
-images_names = create_thumbnail('.', 240)
-
-print(images_names)
 
 #output to html file
-
-def htmlfile(images_names): 
-    is_it_3 = 0
+def htmlfile(images_names):
     html_file = open('website.html', 'w')
-    top_html = '''<!DOCTYPE html>
-<html>
-<body>
 
-<!-- images -->
-<table>
-<tr>'''
-    table_break = '''</tr>
-<tr>'''
+    top_html = "<!DOCTYPE html>\n<html>\n<body>\n\n<!-- images -->\n<table>\n\n"
+    bottom_html = "\n</table>\n</body>\n</html>"
+
     html_file.write(top_html)
-    for bigimage in images_names:
-        new_html = '''<td><a href="%s"><img src="thumbnail/_thumb%s"></a></td>''' 
-        new_realhtml = new_html % (bigimage, bigimage)
-        html_file.write(new_realhtml)
-        is_it_3 += 1
-        if is_it_3 % 3 == 0:
-            html_file.write(table_break)
-    bottom_html = '''</tr>
-    
-</table>
 
-</body>
-</html>'''
+    pic_count = 0
+    for bigimage in images_names:
+
+        if pic_count % 3 == 0: # Start next row
+            html_file.write("<tr height=\"%d\">\n" % (THUMPNAIL_SIZE))
+
+        #Write a column
+        html_file.write("<td width=\"%d\"> " % (THUMPNAIL_SIZE))
+        html_file.write("<a href=\"%s\"><img src=\"thumbnail/_thumb%s\"></a> " % (bigimage, bigimage))
+        html_file.write("</td>\n")
+
+        if pic_count % 3 == 2: # End row
+            html_file.write("</tr>\n\n")
+        pic_count += 1
+
+    if pic_count % 3 != 0: # If end row is not written before, write it now
+        html_file.write("</tr>\n\n")
+
     html_file.write(bottom_html)
 
-htmlfile(images_names)
+
+if __name__ == "__main__": 
+    images_names = create_thumbnail('.', THUMPNAIL_SIZE)
+    htmlfile(images_names)
+    print("Following pictures copied:")
+    for bigimage in images_names:
+        print(bigimage)
