@@ -16,15 +16,17 @@ def date_time_location_add_to_image(image, metadata):
     width, height = image.size
     
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype("FONTS/arial.ttf",40)
-    
-    new_width = (width-(width-40))
-    new_height = (height-80)
     Date_Time = str(metadata['DateTime']) # 2020-09-26 10:01:46
 
     if width > height:
+        new_width = (width-(width-40))
+        new_height = (height-80)
+        font = ImageFont.truetype("FONTS/arial.ttf",50)
         draw.text((new_width,new_height),Date_Time,(0,0,0),font=font)
     else:
+        new_width = (width-(width-20))
+        new_height = (height-50)
+        font = ImageFont.truetype("FONTS/arial.ttf",25)
         draw.text((new_width,new_height),Date_Time,(0,0,0),font=font)    
         
     data_add_image = image.save("COPY--"+image_name)
