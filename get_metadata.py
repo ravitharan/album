@@ -29,8 +29,7 @@ def get_picture_metadata(image):
                 if tag_name in meta_tags:
                     if tag_name == 'DateTime':
                         value_list = re.split(' +',value) # value : 2020:09:26 10:01:46, value_list : ['2020:09:26', '10:01:46'] 
-                        re_value = value_list[0].replace(':','-') # re_value : 2020-09-26
-                        datetime_value = re_value + " " + value_list[1] # datetime_value : 2020-09-26 10:01:46 (class 'str'>
+                        datetime_value = ((value_list[0].replace(':','-'))+ " " + value_list[1]) # datetime_value : 2020-09-26 10:01:46 (class 'str'>
                         value = datetime.fromisoformat(datetime_value) # value : 2020-09-26 10:01:46 (class 'datetime.datetime') 
                         metadata[tag_name] = value
                         
