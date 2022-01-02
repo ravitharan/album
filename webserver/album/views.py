@@ -6,4 +6,4 @@ from . import urls
 
 
 def index(request):
-    return render(request, 'album.html')
+    return render(request, 'album.html', {'data': urls.data})
