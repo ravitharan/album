@@ -1,5 +1,3 @@
-# album
-Copy over photos from a camera into a local destination folder or cloud folder
-and organise them thorough an html page. Optionally, delete the photos from the
-camera after copy over.
+1) django-admin startproject webserver
 
+2) cd to webserver and then "python manage.py startapp album"
