@@ -24,6 +24,9 @@ def convert_exif_gps(GPSInfo):
                     29: '2021:12:19'}
 
     """
+    if not isinstance(GPSInfo, list):
+        return ''
+
     try:
         latitude = GPSInfo[2][0] + GPSInfo[2][1]/60.0 + GPSInfo[2][2]/60.0/60.0
         if GPSInfo[1] == 'S':
