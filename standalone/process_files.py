@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 import glob
+from PIL import Image
 from pathlib import Path
 
 from metadata import *
@@ -35,7 +36,7 @@ def add_picture(image):
     image_name = os.path.basename(image)
     image_size = os.stat(image).st_size
 
-    image_metadata = get_exif_tags(image, EXIF_TAGS)
+    image_metadata = get_exif_tags(image)
     image_metadata[FILE_NAME_KEY] = image_name
     image_metadata[FILE_SIZE_KEY] = image_size
 
